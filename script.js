@@ -1,62 +1,67 @@
-// ---------- Données produits ----------
+{
+// ---------- Catalogue (exemples) ----------
 const PRODUCTS = [
-  { id: 1, name: "Chef Damas 21 cm", cat: "cuisine", shape: "knife-chef", price: 289, meta: "Acier damas 67 couches · Manche olivier", blade: "url(#damas)", handle: "#6b4a2b", tag: "Best-seller" },
-  { id: 2, name: "Santoku Kiri", cat: "cuisine", shape: "knife-chef", price: 179, meta: "Acier VG-10 · Manche ébène", handle: "#1c1917" },
-  { id: 3, name: "Office Petit Chef", cat: "cuisine", shape: "knife-chef", price: 89, meta: "Inox X50 · Manche hêtre", handle: "#a16207" },
-  { id: 4, name: "Le Pliant Thiers", cat: "poche", shape: "knife-pocket", price: 129, meta: "Acier 14C28N · Corne blonde", handle: "#c2a878", tag: "Nouveau" },
-  { id: 5, name: "Nomade Carbone", cat: "poche", shape: "knife-pocket", price: 149, meta: "Acier carbone · Fibre de carbone", handle: "#27272a" },
-  { id: 6, name: "Pliant Damas Prestige", cat: "poche", shape: "knife-pocket", price: 249, meta: "Damas · Bois de cerf", blade: "url(#damas)", handle: "#8b6b4a", tag: "Édition limitée" },
-  { id: 7, name: "Trappeur 12", cat: "chasse", shape: "knife-hunt", price: 199, meta: "Acier N690 · Micarta vert", handle: "#365314" },
-  { id: 8, name: "Bushcraft Ardèche", cat: "chasse", shape: "knife-hunt", price: 169, meta: "Acier carbone 1095 · Noyer", handle: "#5b3a1e" },
+  { id: 1, name: "Chef Damas Nordique 21 cm", cats: ["cuisine", "damas"], shape: "knife-chef", price: 329, meta: "Damas 67 couches · Manche ébène", blade: "url(#damas)", handle: "#0c0a09", tag: "Nouveau" },
+  { id: 2, name: "Santoku Kiri 18 cm", cats: ["cuisine"], shape: "knife-chef", price: 179, meta: "Acier VG-10 · Manche chêne fumé", handle: "#3f2a1d" },
+  { id: 3, name: "Office 9 cm", cats: ["cuisine"], shape: "knife-chef", price: 89, meta: "Inox X50 · Manche hêtre", handle: "#a16207" },
+  { id: 4, name: "Le Pliant du Nord", cats: ["poche"], shape: "knife-pocket", price: 129, meta: "Acier suédois 14C28N · Corne blonde", handle: "#a8a29e", tag: "Best-seller" },
+  { id: 5, name: "Nomade Carbone", cats: ["poche"], shape: "knife-pocket", price: 149, meta: "Acier carbone · Fibre de carbone", handle: "#27272a" },
+  { id: 6, name: "Pliant Damas Prestige", cats: ["poche", "damas"], shape: "knife-pocket", price: 259, meta: "Damas · Bois de cerf", blade: "url(#damas)", handle: "#8b6b4a", tag: "Édition limitée" },
+  { id: 7, name: "Trappeur 12", cats: ["chasse"], shape: "knife-hunt", price: 199, meta: "Acier N690 · Micarta vert · Fourreau cuir", handle: "#1f2a1d" },
+  { id: 8, name: "Bushcraft Ardennes", cats: ["chasse"], shape: "knife-hunt", price: 169, meta: "Acier carbone 1095 · Noyer", handle: "#5b3a1e" },
+  { id: 9, name: "Coffret Brigade", cats: ["coffret", "cuisine"], shape: "knife-chef", price: 449, meta: "Chef, santoku et office · Gravure offerte", handle: "#292524", tag: "Idée cadeau" },
+  { id: 10, name: "Coffret Découverte", cats: ["coffret", "poche"], shape: "knife-pocket", price: 169, meta: "Pliant, étui cuir et pierre d'affûtage", handle: "#57534e" },
 ];
+const QUICK_LINKS = [
+  ["Couteaux en acier damas", "#boutique", "damas"],
+  ["Affûtage offert à vie", "#services"],
+  ["Coffrets cadeaux", "#boutique", "coffret"],
+  ["Questions fréquentes", "#faq"],
+  ["Venir à l'atelier", "#contact"],
+];
+const FREE_SHIPPING = 80;
+const SHIPPING = 6.9;
 
-const euro = (n) => n.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-
+const euro = (n) => n.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+const byId = (id) => PRODUCTS.find((p) => p.id === id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const knifeSvg = (p) =>
   `<svg viewBox="0 0 400 80" style="--handle:${p.handle};${p.blade ? `--blade:${p.blade}` : ""}" aria-hidden="true"><use href="#${p.shape}"/></svg>`;
 
-const CAT_LABEL = { cuisine: "Cuisine", poche: "Poche", chasse: "Chasse" };
-
-// ---------- Rendu des produits ----------
-function renderProducts(filter = "all") {
-  const list = PRODUCTS.filter((p) => filter === "all" || p.cat === filter);
+// ---------- Boutique ----------
+let currentFilter = "all";
+function renderProducts() {
+  const list = PRODUCTS.filter((p) => currentFilter === "all" || p.cats.includes(currentFilter));
   $("#products").innerHTML = list
     .map(
       (p, i) => `
-      <article class="product" style="animation-delay:${i * 60}ms">
-        <div class="product__media">
-          ${p.tag ? `<span class="tag">${p.tag}</span>` : ""}
-          ${knifeSvg(p)}
-        </div>
+      <article class="product" style="animation-delay:${i * 50}ms">
+        <div class="product__media">${p.tag ? `<span class="tag">${p.tag}</span>` : ""}${knifeSvg(p)}</div>
         <div class="product__body">
-          <span class="product__cat">${CAT_LABEL[p.cat]}</span>
           <h3 class="product__name">${p.name}</h3>
           <p class="product__meta">${p.meta}</p>
           <div class="product__foot">
             <span class="price">${euro(p.price)}</span>
-            <button class="add-btn" data-id="${p.id}" aria-label="Ajouter ${p.name} au panier">+</button>
+            <button class="pill pill--fill" data-add="${p.id}" aria-label="Acheter ${p.name}">Acheter</button>
           </div>
         </div>
       </article>`
     )
     .join("");
 }
-
 function setFilter(filter) {
+  currentFilter = filter;
   $$(".chip").forEach((c) => c.classList.toggle("is-active", c.dataset.filter === filter));
-  renderProducts(filter);
+  renderProducts();
 }
-
-$$(".chip").forEach((chip) => chip.addEventListener("click", () => setFilter(chip.dataset.filter)));
-$$(".collection").forEach((card) => card.addEventListener("click", () => setFilter(card.dataset.filter)));
 
 // ---------- Panier ----------
 let cart = [];
-try { cart = JSON.parse(localStorage.getItem("coteaux-cart")) || []; } catch { cart = []; }
-
-const saveCart = () => { try { localStorage.setItem("coteaux-cart", JSON.stringify(cart)); } catch {} };
+try { cart = JSON.parse(localStorage.getItem("lfdn-cart")) || []; } catch { cart = []; }
+cart = cart.filter((i) => byId(i.id));
+const saveCart = () => { try { localStorage.setItem("lfdn-cart", JSON.stringify(cart)); } catch {} };
 
 function addToCart(id) {
   const item = cart.find((i) => i.id === id);
@@ -64,11 +69,9 @@ function addToCart(id) {
   saveCart();
   renderCart();
   const badge = $("#cartCount");
-  badge.classList.add("bump");
-  setTimeout(() => badge.classList.remove("bump"), 300);
-  toast(`${PRODUCTS.find((p) => p.id === id).name} ajouté au panier`);
+  badge.classList.remove("bump"); void badge.offsetWidth; badge.classList.add("bump");
+  toast(`${byId(id).name} ajouté au panier`);
 }
-
 function changeQty(id, delta) {
   const item = cart.find((i) => i.id === id);
   if (!item) return;
@@ -77,18 +80,19 @@ function changeQty(id, delta) {
   saveCart();
   renderCart();
 }
-
 function renderCart() {
   const count = cart.reduce((s, i) => s + i.qty, 0);
-  const total = cart.reduce((s, i) => s + i.qty * PRODUCTS.find((p) => p.id === i.id).price, 0);
+  const sub = cart.reduce((s, i) => s + i.qty * byId(i.id).price, 0);
+  const ship = sub === 0 || sub >= FREE_SHIPPING ? 0 : SHIPPING;
   $("#cartCount").textContent = count;
-  $("#cartTotal").textContent = euro(total);
+  $("#cartCount").hidden = count === 0;
+  $("#cartShip").textContent = ship ? euro(ship) : "Offerte";
+  $("#cartTotal").textContent = euro(sub + ship);
   $("#checkout").disabled = count === 0;
-
   $("#cartItems").innerHTML = cart.length
     ? cart
         .map(({ id, qty }) => {
-          const p = PRODUCTS.find((x) => x.id === id);
+          const p = byId(id);
           return `
           <li class="cart-item">
             <div class="cart-item__thumb">${knifeSvg(p)}</div>
@@ -101,36 +105,68 @@ function renderCart() {
                 <button data-qty="1" data-id="${id}" aria-label="Ajouter un">+</button>
               </div>
             </div>
-            <button class="remove" data-remove="${id}">Retirer</button>
+            <button class="remove" data-remove="${id}">Supprimer</button>
           </li>`;
         })
         .join("")
-    : `<li class="cart__empty">Votre panier est vide.<br/>Trouvez la lame qui vous ressemble.</li>`;
+    : `<li class="cart__empty">Votre panier est vide.</li>`;
 }
-
 function openCart(open) {
   $("#cart").classList.toggle("open", open);
   $("#overlay").classList.toggle("open", open);
   $("#cart").setAttribute("aria-hidden", String(!open));
 }
 
-$("#products").addEventListener("click", (e) => {
-  const btn = e.target.closest(".add-btn");
-  if (btn) addToCart(Number(btn.dataset.id));
-});
-$("#cartItems").addEventListener("click", (e) => {
+// ---------- Menu et recherche plein écran ----------
+function openSheet(id) {
+  closeSheets();
+  $(id).hidden = false;
+  document.body.style.overflow = "hidden";
+  if (id === "#searchSheet") { renderSearch(""); setTimeout(() => $("#searchInput").focus(), 50); }
+}
+function closeSheets() {
+  $$(".sheet").forEach((s) => (s.hidden = true));
+  document.body.style.overflow = "";
+}
+function renderSearch(q) {
+  const term = q.trim().toLowerCase();
+  if (!term) {
+    $("#searchLabel").textContent = "Liens rapides";
+    $("#searchResults").innerHTML = QUICK_LINKS.map(
+      ([label, href, f]) => `<li><a href="${href}"${f ? ` data-filter="${f}"` : ""}>${label}</a></li>`
+    ).join("");
+    return;
+  }
+  const found = PRODUCTS.filter((p) => (p.name + " " + p.meta + " " + p.cats.join(" ")).toLowerCase().includes(term));
+  $("#searchLabel").textContent = found.length ? `${found.length} résultat${found.length > 1 ? "s" : ""}` : "Résultats";
+  $("#searchResults").innerHTML = found.length
+    ? found.map((p) => `<li><a href="#boutique" data-filter="${p.cats[0]}">${p.name}<span class="price">${euro(p.price)}</span></a></li>`).join("")
+    : `<li class="quick__empty">Aucun résultat pour « ${esc(q.trim())} ».</li>`;
+}
+
+// ---------- Délégation des clics ----------
+document.addEventListener("click", (e) => {
+  const add = e.target.closest("[data-add]");
+  if (add) { addToCart(Number(add.dataset.add)); return; }
+
+  const filt = e.target.closest("[data-filter]");
+  if (filt) setFilter(filt.dataset.filter);
+
+  if (e.target.closest(".sheet a") || e.target.closest("[data-close]")) closeSheets();
+
   const q = e.target.closest("[data-qty]");
-  const r = e.target.closest("[data-remove]");
   if (q) changeQty(Number(q.dataset.id), Number(q.dataset.qty));
+  const r = e.target.closest("[data-remove]");
   if (r) changeQty(Number(r.dataset.remove), -Infinity);
 });
+$("#menuBtn").addEventListener("click", () => openSheet("#menuSheet"));
+$("#searchBtn").addEventListener("click", () => openSheet("#searchSheet"));
+$("#searchInput").addEventListener("input", (e) => renderSearch(e.target.value));
 $("#cartBtn").addEventListener("click", () => openCart(true));
 $("#cartClose").addEventListener("click", () => openCart(false));
 $("#overlay").addEventListener("click", () => openCart(false));
-document.addEventListener("keydown", (e) => e.key === "Escape" && openCart(false));
-$("#checkout").addEventListener("click", () => {
-  toast("Merci ! Le paiement en ligne arrive bientôt.");
-});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") { openCart(false); closeSheets(); } });
+$("#checkout").addEventListener("click", () => toast("Merci ! Le paiement en ligne arrive bientôt."));
 
 // ---------- Toast ----------
 let toastTimer;
@@ -142,36 +178,61 @@ function toast(msg) {
   toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
 }
 
-// ---------- Navigation ----------
-const nav = $(".nav");
-const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 20);
-window.addEventListener("scroll", onScroll, { passive: true });
-onScroll();
+// ---------- Carrousel ----------
+const track = $("#track");
+const slides = $$(".slide", track);
+let active = 0;
+let playing = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+$("#dots").innerHTML = slides.map((_, i) => `<button aria-label="Diapositive ${i + 1}"></button>`).join("");
+const dots = $$("#dots button");
 
-const burger = $("#burger");
-burger.addEventListener("click", () => {
-  const open = burger.getAttribute("aria-expanded") !== "true";
-  burger.setAttribute("aria-expanded", String(open));
-  $("#navLinks").classList.toggle("open", open);
-});
-$$("#navLinks a").forEach((a) =>
-  a.addEventListener("click", () => {
-    burger.setAttribute("aria-expanded", "false");
-    $("#navLinks").classList.remove("open");
-  })
+function goTo(i) {
+  const s = slides[i];
+  track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.clientWidth) / 2, behavior: "smooth" });
+}
+function setActive(i) {
+  active = i;
+  slides.forEach((s, k) => s.classList.toggle("is-active", k === i));
+  dots.forEach((d, k) => d.classList.toggle("is-active", k === i));
+}
+const slideObserver = new IntersectionObserver(
+  (entries) => entries.forEach((en) => en.isIntersecting && setActive(slides.indexOf(en.target))),
+  { root: track, threshold: 0.6 }
 );
+slides.forEach((s) => slideObserver.observe(s));
+setActive(0);
+dots.forEach((d, i) => d.addEventListener("click", () => { goTo(i); setPlaying(false); }));
+track.addEventListener("pointerdown", () => setPlaying(false));
 
-// ---------- Apparition au scroll ----------
-const io = new IntersectionObserver(
-  (entries) => entries.forEach((en) => en.isIntersecting && (en.target.classList.add("visible"), io.unobserve(en.target))),
-  { threshold: 0.15 }
+function setPlaying(p) {
+  playing = p;
+  $("#playBtn").setAttribute("aria-label", p ? "Mettre en pause" : "Lire");
+  $("#playIcon").innerHTML = p
+    ? '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>'
+    : '<path d="M7 5v14l12-7z"/>';
+}
+setPlaying(playing);
+$("#playBtn").addEventListener("click", () => setPlaying(!playing));
+setInterval(() => { if (playing && !document.hidden) goTo((active + 1) % slides.length); }, 5000);
+
+// ---------- Apparition au défilement ----------
+const revealObserver = new IntersectionObserver(
+  (entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("visible"); revealObserver.unobserve(en.target); } }),
+  { threshold: 0.12 }
 );
-$$(".reveal").forEach((el) => io.observe(el));
+$$(".tile, .shop__head, .perks, .faq, .contact").forEach((el) => { el.classList.add("reveal"); revealObserver.observe(el); });
+
+// ---------- Pied de page : colonnes repliables sur mobile ----------
+const mobile = matchMedia("(max-width: 833px)");
+const syncFooter = () => $$(".footer__cols details").forEach((d) => (d.open = !mobile.matches));
+syncFooter();
+mobile.addEventListener("change", syncFooter);
+$$(".footer__cols summary").forEach((s) => s.addEventListener("click", (e) => { if (!mobile.matches) e.preventDefault(); }));
 
 // ---------- Newsletter ----------
 $("#newsletterForm").addEventListener("submit", (e) => {
   e.preventDefault();
-  $("#newsletterMsg").textContent = "Bienvenue ! Votre code −10 % arrive par e-mail.";
+  $("#newsletterMsg").textContent = "Merci ! Les inscriptions ouvriront avec la boutique en ligne.";
   e.target.reset();
 });
 
@@ -179,3 +240,4 @@ $("#newsletterForm").addEventListener("submit", (e) => {
 $("#year").textContent = new Date().getFullYear();
 renderProducts();
 renderCart();
+}
