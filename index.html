@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coteaux — Coutellerie d'exception</title>
+  <meta name="description" content="Coteaux, boutique de couteaux artisanaux : couteaux de cuisine, de poche et de chasse forgés à la main." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Symboles SVG réutilisables (lames) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f4f4f5" />
+        <stop offset=".45" stop-color="#a1a1aa" />
+        <stop offset=".55" stop-color="#d4d4d8" />
+        <stop offset="1" stop-color="#71717a" />
+      </linearGradient>
+      <linearGradient id="damas" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#52525b" />
+        <stop offset=".2" stop-color="#d4d4d8" />
+        <stop offset=".4" stop-color="#3f3f46" />
+        <stop offset=".6" stop-color="#e4e4e7" />
+        <stop offset=".8" stop-color="#52525b" />
+        <stop offset="1" stop-color="#a1a1aa" />
+      </linearGradient>
+    </defs>
+    <symbol id="knife-chef" viewBox="0 0 400 80">
+      <path d="M150 20 L380 30 Q395 34 380 44 Q300 66 150 60 Z" style="fill:var(--blade, url(#steel))" />
+      <path d="M150 20 L380 30 Q300 34 150 34 Z" fill="#fff" opacity=".25" />
+      <rect x="138" y="18" width="14" height="44" rx="3" fill="#d4af37" />
+      <rect x="20" y="26" width="120" height="30" rx="14" style="fill:var(--handle, #3b2a20)" />
+      <circle cx="55" cy="41" r="3.5" fill="#d4af37" /><circle cx="100" cy="41" r="3.5" fill="#d4af37" />
+    </symbol>
+    <symbol id="knife-pocket" viewBox="0 0 400 80">
+      <path d="M190 30 L360 28 Q385 30 370 42 Q300 58 190 52 Z" style="fill:var(--blade, url(#steel))" />
+      <path d="M40 30 Q30 41 40 52 L200 56 L200 26 Z" style="fill:var(--handle, #6b4226)" />
+      <circle cx="190" cy="41" r="6" fill="#d4af37" /><circle cx="60" cy="41" r="4" fill="#d4af37" />
+    </symbol>
+    <symbol id="knife-hunt" viewBox="0 0 400 80">
+      <path d="M160 26 L330 22 Q380 22 385 34 Q340 64 160 58 Z" style="fill:var(--blade, url(#steel))" />
+      <path d="M200 30 L330 27" stroke="#3f3f46" stroke-width="2" opacity=".5" />
+      <rect x="146" y="14" width="14" height="52" rx="4" fill="#a1a1aa" />
+      <path d="M30 28 Q20 42 32 56 L146 54 L146 28 Z" style="fill:var(--handle, #1f2937)" />
+    </symbol>
+  </svg>
+
+  <header class="nav" id="top">
+    <div class="container nav__inner">
+      <a href="#top" class="logo" aria-label="Coteaux, accueil">
+        <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M4 26 L26 4 Q30 6 28 10 L10 28 Z" fill="currentColor"/><path d="M4 26 L9 21 L11 23 L6 28 Z" fill="#d4af37"/></svg>
+        <span>Coteaux</span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Navigation principale">
+        <a href="#collections">Collections</a>
+        <a href="#boutique">Boutique</a>
+        <a href="#atelier">L'atelier</a>
+        <a href="#avis">Avis</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="icon-btn" id="cartBtn" aria-label="Ouvrir le panier">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+        <button class="icon-btn burger" id="burger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__text reveal">
+          <p class="eyebrow">Forgés à la main · Depuis 1987</p>
+          <h1>L'art du tranchant,<br /><em>réinventé.</em></h1>
+          <p class="lead">Couteaux de cuisine, de poche et de chasse façonnés par des maîtres couteliers. Acier damas, manches en bois nobles, finitions irréprochables.</p>
+          <div class="hero__cta">
+            <a href="#boutique" class="btn btn--primary">Découvrir la boutique</a>
+            <a href="#atelier" class="btn btn--ghost">Notre savoir-faire →</a>
+          </div>
+          <dl class="stats">
+            <div><dt>37</dt><dd>ans d'expertise</dd></div>
+            <div><dt>12k+</dt><dd>clients satisfaits</dd></div>
+            <div><dt>À vie</dt><dd>garantie atelier</dd></div>
+          </dl>
+        </div>
+        <div class="hero__visual reveal" aria-hidden="true">
+          <div class="hero__ring"></div>
+          <svg class="hero__knife" viewBox="0 0 400 80" style="--blade:url(#damas)"><use href="#knife-chef" /></svg>
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Acier Damas</span><span>✦</span><span>Livraison offerte dès 80 €</span><span>✦</span><span>Affûtage offert à vie</span><span>✦</span><span>Gravure personnalisée</span><span>✦</span>
+          <span>Acier Damas</span><span>✦</span><span>Livraison offerte dès 80 €</span><span>✦</span><span>Affûtage offert à vie</span><span>✦</span><span>Gravure personnalisée</span><span>✦</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLLECTIONS -->
+    <section class="section" id="collections">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Collections</p>
+          <h2>Un couteau pour chaque geste</h2>
+        </header>
+        <div class="collections">
+          <a href="#boutique" data-filter="cuisine" class="collection reveal">
+            <svg viewBox="0 0 400 80"><use href="#knife-chef" /></svg>
+            <h3>Cuisine</h3>
+            <p>Chef, santoku, office, pain — la précision au quotidien.</p>
+            <span class="collection__link">Explorer →</span>
+          </a>
+          <a href="#boutique" data-filter="poche" class="collection reveal">
+            <svg viewBox="0 0 400 80"><use href="#knife-pocket" /></svg>
+            <h3>Poche</h3>
+            <p>Pliants élégants, compagnons de toutes vos journées.</p>
+            <span class="collection__link">Explorer →</span>
+          </a>
+          <a href="#boutique" data-filter="chasse" class="collection reveal">
+            <svg viewBox="0 0 400 80"><use href="#knife-hunt" /></svg>
+            <h3>Chasse & Outdoor</h3>
+            <p>Lames fixes robustes, pensées pour la nature.</p>
+            <span class="collection__link">Explorer →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOUTIQUE -->
+    <section class="section section--alt" id="boutique">
+      <div class="container">
+        <header class="section__head section__head--row reveal">
+          <div>
+            <p class="eyebrow">Boutique</p>
+            <h2>Nos pièces phares</h2>
+          </div>
+          <div class="filters" role="tablist" aria-label="Filtrer les produits">
+            <button class="chip is-active" data-filter="all">Tout</button>
+            <button class="chip" data-filter="cuisine">Cuisine</button>
+            <button class="chip" data-filter="poche">Poche</button>
+            <button class="chip" data-filter="chasse">Chasse</button>
+          </div>
+        </header>
+        <div class="products" id="products"></div>
+      </div>
+    </section>
+
+    <!-- ATELIER -->
+    <section class="section" id="atelier">
+      <div class="container atelier">
+        <div class="atelier__text reveal">
+          <p class="eyebrow">L'atelier</p>
+          <h2>Chaque lame raconte une histoire</h2>
+          <p>Dans notre atelier, chaque couteau passe entre les mains d'un seul coutelier, du choix de l'acier jusqu'à l'affûtage final. Plus de 120 étapes et jusqu'à trois jours de travail pour une seule pièce.</p>
+          <ol class="steps">
+            <li><span>01</span><div><h4>La forge</h4><p>L'acier est chauffé à 1 100 °C puis martelé pour affiner son grain.</p></div></li>
+            <li><span>02</span><div><h4>La trempe</h4><p>Un refroidissement maîtrisé donne à la lame sa dureté de 60–62 HRC.</p></div></li>
+            <li><span>03</span><div><h4>L'émouture</h4><p>Le profil est façonné à la meule, à l'œil et à la main.</p></div></li>
+            <li><span>04</span><div><h4>Le montage</h4><p>Manches en olivier, ébène ou corne, ajustés au dixième de millimètre.</p></div></li>
+          </ol>
+        </div>
+        <div class="atelier__visual reveal" aria-hidden="true">
+          <div class="spark-card">
+            <div class="sparks"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <svg viewBox="0 0 400 80" style="--blade:url(#damas);--handle:#1c1917"><use href="#knife-hunt" /></svg>
+            <p class="spark-card__label">Acier damas · 67 couches</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AVIS -->
+    <section class="section section--alt" id="avis">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Avis clients</p>
+          <h2>Ils ont trouvé leur lame</h2>
+        </header>
+        <div class="reviews">
+          <figure class="review reveal">
+            <div class="stars" aria-label="5 étoiles sur 5">★★★★★</div>
+            <blockquote>« Le couteau de chef le plus équilibré que j'ai jamais tenu. Il tranche une tomate sans aucune pression. »</blockquote>
+            <figcaption>Camille R. <span>· Chef cuisinière</span></figcaption>
+          </figure>
+          <figure class="review reveal">
+            <div class="stars" aria-label="5 étoiles sur 5">★★★★★</div>
+            <blockquote>« Offert pour un anniversaire avec gravure. L'emballage et la finition sont dignes d'un bijou. »</blockquote>
+            <figcaption>Julien M. <span>· Client depuis 2021</span></figcaption>
+          </figure>
+          <figure class="review reveal">
+            <div class="stars" aria-label="5 étoiles sur 5">★★★★★</div>
+            <blockquote>« Mon pliant m'accompagne partout depuis deux ans. Le service d'affûtage est un vrai plus. »</blockquote>
+            <figcaption>Sophie L. <span>· Randonneuse</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER + CONTACT -->
+    <section class="section" id="contact">
+      <div class="container contact">
+        <div class="newsletter reveal">
+          <h2>Restez affûté</h2>
+          <p>Nouveautés, éditions limitées et conseils d'entretien. −10 % sur votre première commande.</p>
+          <form class="newsletter__form" id="newsletterForm">
+            <label class="sr-only" for="email">Adresse e-mail</label>
+            <input id="email" type="email" placeholder="votre@email.fr" required />
+            <button class="btn btn--primary" type="submit">S'inscrire</button>
+          </form>
+          <p class="form-msg" id="newsletterMsg" role="status"></p>
+        </div>
+        <div class="info reveal">
+          <div>
+            <h4>Boutique & atelier</h4>
+            <p>12 rue des Forges<br />63300 Thiers, France</p>
+          </div>
+          <div>
+            <h4>Horaires</h4>
+            <p>Mar – Sam : 10h – 19h<br />Dim – Lun : fermé</p>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <p><a href="tel:+33400000000">04 00 00 00 00</a><br /><a href="mailto:contact@coteaux.fr">contact@coteaux.fr</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#top" class="logo"><span>Coteaux</span></a>
+      <p>© <span id="year"></span> Coteaux — Coutellerie artisanale. La vente de couteaux est réservée aux personnes majeures.</p>
+      <div class="footer__links">
+        <a href="#">Mentions légales</a><a href="#">CGV</a><a href="#">Livraison</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PANIER -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart" id="cart" aria-label="Panier" aria-hidden="true">
+    <header class="cart__head">
+      <h3>Votre panier</h3>
+      <button class="icon-btn" id="cartClose" aria-label="Fermer le panier">✕</button>
+    </header>
+    <ul class="cart__items" id="cartItems"></ul>
+    <footer class="cart__foot">
+      <div class="cart__total"><span>Total</span><strong id="cartTotal">0,00 €</strong></div>
+      <button class="btn btn--primary btn--block" id="checkout">Passer commande</button>
+    </footer>
+  </aside>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
